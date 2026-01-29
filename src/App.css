@@ -1,5 +1,5 @@
 body{
-  background-color: whitesmoke;
+  background-color: #f8dda4;
 }
 .nav-bar{
   width: 100%;
@@ -9,7 +9,7 @@ body{
   gap: 400px;
   position: absolute;
   top: 0%;
-  background-color: #1B2F3A;
+  background-color: #0d2149;
   color: #D4D5C8;
 }
 
@@ -20,8 +20,16 @@ body{
 .page{
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  gap: 10px;
+}
+
+.page img{
+  width: 50%;
+  
 }

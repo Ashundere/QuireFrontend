@@ -1,5 +1,5 @@
 
-import logo from "../../assets/Sonder-Logo-only.png"
+import logo from "../../assets/QuireLogoTransparent.png"
 const Navbar = () =>{
     
 
@@ -8,7 +8,7 @@ const Navbar = () =>{
 
     return(
         <nav className="nav-bar">
-            <img src={logo} alt="Sonder Logo which is a strand of dna in the middle of a circle"/>
+            <img src={logo} alt="Quire Logo which is a book on top of an inkwll, with the name Quire above it"/>
             <a href="/">Home</a>
             <a href="/journal">Journal</a>
             <a href="/user">Profile</a>
