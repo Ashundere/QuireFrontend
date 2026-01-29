@@ -1,0 +1,27 @@
+body{
+  background-color: whitesmoke;
+}
+.nav-bar{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 400px;
+  position: absolute;
+  top: 0%;
+  background-color: #1B2F3A;
+  color: #D4D5C8;
+}
+
+.nav-bar img{
+  width: 100px;
+}
+
+.page{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
