@@ -7,6 +7,7 @@ import type { FormData } from '../../types';
 
 const LogInForm = () => {
     const navigate= useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL
   const [formData, setFormData] = useState({ email: '' , password: ''});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +31,7 @@ const LogInForm = () => {
       console.log('Form Submitted:', formData);
       
       // POST request to your backend
-      const response = await axios.post('http://localhost:3000/api/users/login', formData);
+      const response = await axios.post(`${apiUrl}/users/login`, formData);
       const token = response.data.token
       localStorage.setItem('token', token)
       

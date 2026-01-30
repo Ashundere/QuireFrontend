@@ -7,6 +7,7 @@ import type { FormData } from '../../types';
 
 const SignupForm = () => {
     const navigate= useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL
   const [formData, setFormData] = useState({ username: '', email: '' , password: ''});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +38,7 @@ const SignupForm = () => {
       console.log('Form Submitted:', formData);
       
       // POST request to your backend
-      await axios.post('http://localhost:3000/api/users/register', formData);
+      await axios.post(`${apiUrl}/users/register`, formData);
       
       alert('Success! User registered.');
       // Optional: Reset form or redirect
