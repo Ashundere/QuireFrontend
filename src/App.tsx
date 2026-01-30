@@ -19,9 +19,9 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LogInPage />} />
         <Route path="*" element={<PageNotFound />} />
-        <Route path="/login" element={<LogInPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/project/manager" element={<ProjectManagerPage/>} />
         <Route path="/project/:ID" element={<IndividualProjectPage />} />
