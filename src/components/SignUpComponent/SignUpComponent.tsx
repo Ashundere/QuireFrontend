@@ -3,10 +3,11 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import type { FormData } from '../../types';
 
-const navigate= useNavigate()
+
 
 const SignupForm = () => {
-  const [formData, setFormData] = useState({ username: '', email: '' });
+    const navigate= useNavigate()
+  const [formData, setFormData] = useState({ username: '', email: '' , password: ''});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +37,7 @@ const SignupForm = () => {
       console.log('Form Submitted:', formData);
       
       // POST request to your backend
-      const response = await axios.post('/users/register', formData);
+      await axios.post('http://localhost:3000/api/users/register', formData);
       
       alert('Success! User registered.');
       // Optional: Reset form or redirect
@@ -76,6 +77,17 @@ const SignupForm = () => {
           id="email"
           name="email"
           value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+        <div>
+        <label htmlFor="password">Password:</label>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          value={formData.password}
           onChange={handleChange}
           required
         />

@@ -12,11 +12,9 @@ export function AppProviders({ children }: AppProvidersProps) {
 
 
   return (
-      <ThemeProvider>
         <AuthProvider>
           {children}
         </AuthProvider>
-      </ThemeProvider>
   );
 };
 
