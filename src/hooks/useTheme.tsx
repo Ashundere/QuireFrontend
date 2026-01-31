@@ -9,5 +9,8 @@ export const useTheme = () => {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   
-  return context;
+  const { theme, toggleTheme } = context;
+  const isDarkMode = theme === 'dark';
+
+  return { theme, isDarkMode, toggleTheme };
 };

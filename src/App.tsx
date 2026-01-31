@@ -17,6 +17,7 @@ import Navbar from "./components/NavBar/NavBar";
 function App() {
   return (
     <>
+    <AppProviders>
       <Navbar />
       <Routes>
         <Route path="/" element={<LogInPage />} />
@@ -31,6 +32,7 @@ function App() {
         <Route path="/tasks/new" element={<NewTaskPage />} />
         <Route path="/user" element={<AdminPage />} />
       </Routes>
+    </AppProviders>
     </>
   );
 }

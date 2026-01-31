@@ -33,9 +33,11 @@ const LogInForm = () => {
       // POST request to your backend
       const response = await axios.post(`${apiUrl}/users/login`, formData);
       const token = response.data.token
+      const userName = response.data.user.username
       localStorage.setItem('token', token)
+      localStorage.setItem('username', userName)
       
-      alert('Success! Logged In.');
+      alert(`Currently logged in as ${userName}`);
       // Optional: Reset form or redirect
       navigate("/home")
     } catch (err) {

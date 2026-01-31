@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, type ReactNode} from 'react';
+import { createContext, useEffect, useState, type ReactNode} from 'react';
 
 import type { ThemeContextType, Theme } from '../types';
 
@@ -11,7 +11,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     if (savedTheme) return savedTheme;
     
     // Optional: Use system preference if no manual choice exists
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return "light";
   });
 
   const toggleTheme = () => {
