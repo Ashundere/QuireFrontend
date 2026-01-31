@@ -198,3 +198,16 @@ side-bar ul{
 .display-list-footer button:hover{
   background-color: #e5dac3;
 }
+
+@media (max-width: 500px) {
+
+.hero-header img{
+display: none;
+}
+.display-list-header img{
+  display: none;
+}
+
+
+
+}
