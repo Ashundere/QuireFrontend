@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/QuireLogoLight.png";
 import Sidebar from "../../components/SideBar/SideBar";
 import LiveClock from "../../components/Clock/Clock";
 import { useTheme } from "../../hooks/useTheme";
@@ -42,7 +41,7 @@ export default function HomePage() {
               src={isDarkMode ? lightLinesRight : darkLinesRight}
               alt="Decorative Lines"
             />
-            <h1>Agenda</h1>
+            <h1>Active Project</h1>
                         <img
               src={isDarkMode ? lightLinesLeft : darkLinesLeft}
               alt="Decorative Lines"

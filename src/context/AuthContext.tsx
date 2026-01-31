@@ -17,7 +17,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode<DecodedToken>(token);
-        // Check expiration (milliseconds vs seconds)
         if (decoded.exp * 1000 < Date.now()) {
           localStorage.removeItem('token');
         } else {
@@ -35,15 +34,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('token', token);
     const decoded = jwtDecode<DecodedToken>(token);
     setUser(decoded);
+    console.log("Decoded Token", decoded)
   };
 
+  const token = localStorage.getItem("token")
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, token }}>
       {!loading && children}
     </AuthContext.Provider>
   );

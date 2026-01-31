@@ -12,10 +12,13 @@ export interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
   loading: boolean;
+  token: string | null;
 }
 
 
 export type Theme = 'light' | 'dark';
+export type Status = 'To do' | 'In Progress' | 'Completed';
+export type Priority = "Low" | "Medium" | "High"
 
 export interface ThemeContextType {
   theme: Theme;
@@ -26,4 +29,29 @@ export interface FormData {
   username?: string;
   email: string;
   password: string;
+}
+
+export interface TaskItemProps {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: Priority;
+  status: Status
+  project: ProjectItemProps
+}
+
+export interface ProjectItemProps {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  user: string;
+}
+
+export interface TasksResponse {
+  tasks: TaskItemProps[]
+}
+export interface ProjectsResponse {
+  projects: ProjectItemProps[]
 }

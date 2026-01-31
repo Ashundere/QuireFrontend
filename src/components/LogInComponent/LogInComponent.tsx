@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import type { FormData } from '../../types';
+import { useAuth } from '../../hooks/useAuth';
 
 
 
 const LogInForm = () => {
     const navigate= useNavigate()
+    const { login } = useAuth()
     const apiUrl = import.meta.env.VITE_API_URL
   const [formData, setFormData] = useState({ email: '' , password: ''});
   const [isLoading, setIsLoading] = useState(false);
@@ -29,12 +30,14 @@ const LogInForm = () => {
 
     try {
       console.log('Form Submitted:', formData);
+
       
       // POST request to your backend
       const response = await axios.post(`${apiUrl}/users/login`, formData);
       const token = response.data.token
       const userName = response.data.user.username
-      localStorage.setItem('token', token)
+      login(token)
+      console.log("Log In Token:", token)
       localStorage.setItem('username', userName)
       
       alert(`Currently logged in as ${userName}`);

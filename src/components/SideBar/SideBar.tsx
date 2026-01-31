@@ -8,9 +8,10 @@ const Sidebar = () =>{
         <nav className={`side-bar`}>
             <ul>
                 <button>Today</button>
-                <a href="/project/manager">Projects</a>
+                <a href="/projects/manager">Projects</a>
                 <a href="/tasks/manager">Tasks</a>
                 <button>Overdue</button>
+                <a href="/tasks/manager">Profile</a>
             </ul>
         </nav>
     )
