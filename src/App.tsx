@@ -31,7 +31,7 @@ function App() {
         <Route path="/projects/new" element={<NewProjectPage />} />
         <Route path="/tasks/manager" element={<AgendaPage />} />
         <Route path="/tasks/:ID" element={<IndividualTaskPage />} />
-        <Route path="/tasks/new" element={<NewTaskPage />} />
+        <Route path="/tasks/new/:ID" element={<NewTaskPage />} />
         <Route path="/user" element={<AdminPage />} />
       </Routes>
     </AppProviders>

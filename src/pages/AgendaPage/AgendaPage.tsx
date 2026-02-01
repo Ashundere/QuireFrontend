@@ -15,6 +15,7 @@ const navigate = useNavigate()
 
     console.log(data)
   return (
+    <div>
     <ul style={{ listStyle: 'none', padding: 0 }}>
       {Array.isArray(data) && data.length > 0 ? (
         data.map((task) => (
@@ -28,5 +29,6 @@ const navigate = useNavigate()
         <p>No tasks found.</p>
       )}
     </ul>
+    </div>
   );
 }

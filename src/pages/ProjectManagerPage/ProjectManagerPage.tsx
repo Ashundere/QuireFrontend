@@ -10,11 +10,13 @@ const navigate = useNavigate()
     `${apiUrl}/projects`
   );
 
+
   if (loading) return <p>Loading Projects...</p>;
   if (error) return <p>Error: {error}</p>;
 
     console.log(data)
   return (
+    <div>
     <ul style={{ listStyle: 'none', padding: 0 }}>
       {Array.isArray(data) && data.length > 0 ? (
         data.map((project) => (
@@ -28,5 +30,7 @@ const navigate = useNavigate()
         <p>No projects found.</p>
       )}
     </ul>
+    <button onClick={()=> navigate("/projects/new")}>+</button>
+    </div>
   );
 }

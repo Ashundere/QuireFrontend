@@ -15,6 +15,10 @@ export interface AuthContextType {
   token: string | null;
 }
 
+export interface ProjectContextType {
+  activeProjectId: string | null;
+  setActiveProject: (id: string | null) => void;
+}
 
 export type Theme = 'light' | 'dark';
 export type Status = 'To do' | 'In Progress' | 'Completed';
@@ -32,7 +36,7 @@ export interface FormData {
 }
 
 export interface TaskItemProps {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   dueDate: string;
@@ -42,7 +46,7 @@ export interface TaskItemProps {
 }
 
 export interface ProjectItemProps {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   dueDate: string;
