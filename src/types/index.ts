@@ -13,6 +13,7 @@ export interface AuthContextType {
   logout: () => void;
   loading: boolean;
   token: string | null;
+  isAuthenticated: boolean;
 }
 
 export interface ProjectContextType {

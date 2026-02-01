@@ -14,6 +14,8 @@ import IndividualTaskPage from "./pages/IndividualTaskPage/IndividualTaskPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Navbar from "./components/NavBar/NavBar";
+import EditTaskPage from "./pages/EditTaskPage/EditTaskPage";
+import EditProjectPage from "./pages/EditProjectPage/EditProjectPage";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path="/tasks/:ID" element={<IndividualTaskPage />} />
         <Route path="/tasks/new/:ID" element={<NewTaskPage />} />
         <Route path="/user" element={<AdminPage />} />
+        <Route path="/tasks/edit/:ID" element={<EditTaskPage/>} />
+        <Route path="/projects/edit/:ID" element={<EditProjectPage/>} />
       </Routes>
     </AppProviders>
     </>

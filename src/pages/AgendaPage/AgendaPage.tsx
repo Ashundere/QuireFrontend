@@ -29,6 +29,7 @@ const navigate = useNavigate()
         <p>No tasks found.</p>
       )}
     </ul>
+    <button onClick={() => navigate(-1)}>Return</button>
     </div>
   );
 }

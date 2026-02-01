@@ -11,7 +11,7 @@ const Sidebar = () =>{
                 <a href="/projects/manager">Projects</a>
                 <a href="/tasks/manager">Tasks</a>
                 <button>Overdue</button>
-                <a href="/tasks/manager">Profile</a>
+                <a href="/user">Profile</a>
             </ul>
         </nav>
     )

@@ -81,8 +81,9 @@ export default function IndividualProjectPage() {
       </ul>
 
       <button onClick={() => setActiveProject(project._id)}>Make Active Project</button>
+      <button onClick={()=> navigate(`/projects/edit/${ID}`)}>Edit Project</button>
       <button onClick={() => navigate(`/tasks/new/${ID}`)}>+</button>
-      <button onClick={() => navigate("/home")}>Return Home</button>
+      <button onClick={() => navigate(-1)}>Return</button>
     </div>
   );
 }

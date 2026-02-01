@@ -37,11 +37,7 @@ const LogInForm = () => {
       const token = response.data.token
       const userName = response.data.user.username
       login(token)
-      console.log("Log In Token:", token)
       localStorage.setItem('username', userName)
-      
-      alert(`Currently logged in as ${userName}`);
-      // Optional: Reset form or redirect
       navigate("/home")
     } catch (err) {
       // TypeScript narrowing for Axios errors

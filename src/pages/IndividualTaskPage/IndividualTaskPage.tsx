@@ -19,7 +19,8 @@ export default function IndividualTaskPage(){
     <h1>{data?.title}</h1>
     <p>{data?.description}</p>
     <p>{data?.dueDate}</p>
-    <button onClick={()=> navigate("/")}>Return Home</button>
+    <button onClick={()=> navigate(`/tasks/edit/${ID}`)}>Edit Task</button>
+    <button onClick={()=> navigate(-1)}>Return</button>
   </div>
   )
 
