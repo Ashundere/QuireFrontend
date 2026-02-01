@@ -31,6 +31,7 @@ const navigate = useNavigate()
       )}
     </ul>
     <button onClick={()=> navigate("/projects/new")}>+</button>
+    <button onClick={()=> navigate(-1)}>Return</button>
     </div>
   );
 }
