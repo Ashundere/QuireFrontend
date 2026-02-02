@@ -5,6 +5,52 @@
   box-sizing: border-box;
 }
 
+/* App.css */
+:root {
+  --bs-primary: #767165;
+  --bs-primary-rgb: 118, 113, 101;
+  --bs-dark: #2b3848;
+  --bs-dark-rgb: 43, 56, 72;
+}
+
+.btn-primary {
+  --bs-btn-bg: #767165;
+  --bs-btn-border-color: #767165;
+  --bs-btn-color: #e2c59d;
+  --bs-btn-hover-bg: #e5dac3;
+  --bs-btn-hover-border-color: #e5dac3;
+  --bs-btn-hover-color: #2b3848;
+  --bs-btn-active-bg: #4a463e;
+}
+
+/* .text-light {
+  color: #e2c59d !important;
+}
+
+.text-dark {
+  color: #2b3848 !important;
+} */
+
+[data-bs-theme="light"] {
+  --bs-primary: #2b3848;
+  --bs-primary-rgb: 43, 56, 72;
+  --bs-body-bg: #e2c59d;
+  --bs-body-color: #2b3848;
+}
+
+
+[data-bs-theme="dark"] {
+  --bs-primary: #e2c59d;
+  --bs-primary-rgb: 226, 197, 157;
+  --bs-body-bg: #2b3848;
+  --bs-body-color: #e2c59d;
+}
+
+/* .btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-color: var(--bs-primary);
+} */
 
 .parent-grid-container {
   display: grid;

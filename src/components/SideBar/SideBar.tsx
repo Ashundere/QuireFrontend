@@ -1,18 +1,22 @@
-const Sidebar = () =>{
+import { Stack } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
 
+
+const Sidebar = () =>{
+const navigate = useNavigate()
     
 
 
 
     return(
-        <nav className={`side-bar`}>
-            <ul>
-                <button>Today</button>
-                <a href="/projects/manager">Projects</a>
-                <a href="/tasks/manager">Tasks</a>
-                <button>Overdue</button>
-                <a href="/user">Profile</a>
-            </ul>
+        <nav>
+            <Stack className="mx-auto">
+                <button className="btn-primary w-100">Today</button>
+                <button className="btn-primary" onClick={()=>navigate("/projects/manager")}>Projects</button>
+                <button className="btn-primary" onClick={()=>navigate("/tasks/manager")}>Tasks</button>
+                <button className="btn-primary">Overdue</button>
+                <button className="btn-primary" onClick={()=>navigate("/user")}>Profile</button>
+            </Stack>
         </nav>
     )
 }

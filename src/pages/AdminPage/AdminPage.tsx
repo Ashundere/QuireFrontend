@@ -22,7 +22,7 @@ export default function AdminPage(){
             <p>Not you?</p>
             <button onClick={logout}>Log Out</button>
             <button onClick={()=> navigate(-1)}>Return Home</button>
-            <button onClick={toggleTheme}>{`${theme} Mode`}</button>
+            <button onClick={toggleTheme}>{`Current Theme: ${theme}`}</button>
         </div>
     )
 }

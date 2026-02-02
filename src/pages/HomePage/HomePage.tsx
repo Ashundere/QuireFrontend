@@ -11,6 +11,7 @@ import lightLinesLeft from "../../assets/linedesignlightleft.png";
 import { useFetch } from "../../hooks/useFetch";
 import type { ProjectItemProps, TasksResponse } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
+import { Card, Button, Container, Row, Col, Image} from "react-bootstrap";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function HomePage() {
@@ -30,70 +31,81 @@ export default function HomePage() {
     `${apiUrl}/projects/${activeProjectId}/tasks`,
   );
 
-    if (!isAuthenticated) {
+  if (!isAuthenticated) {
     return (
-      <div className="login-prompt">
-        <h1>Please Log In</h1>
-        <button onClick={() => navigate("/login")}>Log In</button>
-      </div>
+      <Container className="d-flex justify-content-center align-items-center">
+        <Card
+          style={{ width: "18rem" }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <Card.Body>
+            <Card.Title>Please Log In</Card.Title>
+            <Button variant="primary" onClick={() => navigate("/")}>
+              Log In
+            </Button>
+          </Card.Body>
+        </Card>
+      </Container>
     );
   }
 
   return (
-    <div className="home-page">
-      <div className="hero-header">
-        <div className="hero-left">
-          <img
+    <Container fluid>
+      <Row>
+          <Image
+            className="w-25"
             src={isDarkMode ? lightLogo : darkLogo}
             alt="Quire Logo which is a book with a quill writing in it, with the name Quire above it"
+            fluid
           />
-          <div className="hero-info">
-              <h2>{`Welcome, ${localStorage.getItem("username")}`}</h2>
+            <h2>{`Welcome, ${localStorage.getItem("username")}`}</h2>
             <h4>{currentDate}</h4>
             <LiveClock />
-          </div>
-          <div className="hero-right"></div>
-        </div>
-      </div>
-      <div className="main-content">
-        <Sidebar />
-        <div className="display-list">
-          <div className="display-list-header">
-            <img
-              src={isDarkMode ? lightLinesRight : darkLinesRight}
-              alt="Decorative Lines"
-            />
-            <h1>Active Project</h1>
-            <img
-              src={isDarkMode ? lightLinesLeft : darkLinesLeft}
-              alt="Decorative Lines"
-            />
-          </div>
-          <div className="display-list-footer">
-            <div>
-              <h1>{project?.title}</h1>
-              <p>{project?.description}</p>
-              <p>{project?.dueDate}</p>
-              <p>{project?.user}</p>
+      </Row>
+      <Row>
+        <Col className="border-top border-bottom border-end p-3 text-center">
+          <Sidebar />
+        </Col>
+        <Col xs lg="6" className="border-top border-bottom border-end p-3">
+            <div className="display-list-header">
+              <img
+                src={isDarkMode ? lightLinesRight : darkLinesRight}
+                alt="Decorative Lines"
+              />
+              <h1>Active Project</h1>
+              <img
+                src={isDarkMode ? lightLinesLeft : darkLinesLeft}
+                alt="Decorative Lines"
+              />
             </div>
-            <h3>Tasks for this Project</h3>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {Array.isArray(tasks) && tasks.length > 0 ? (
-                tasks.map((task) => (
-                  <li key={task._id} style={{ margin: "10px 0" }}>
-                    <a href={`/tasks/${task._id}`}>
-                      <span>{task.title}</span>
-                    </a>
-                  </li>
-                ))
-              ) : (
-                <p>No tasks found.</p>
-              )}
-            </ul>
-            <button>+</button>
-          </div>
-        </div>
-      </div>
-    </div>
+            <div className="text-center">
+              <div>
+                <h1>{project?.title}</h1>
+                <p>{project?.description}</p>
+                <p>{project?.dueDate}</p>
+                <p>{project?.user}</p>
+              </div>
+              <h3>Tasks for this Project</h3>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                {Array.isArray(tasks) && tasks.length > 0 ? (
+                  tasks.map((task) => (
+                    <li key={task._id} style={{ margin: "10px 0" }}>
+                      <a href={`/tasks/${task._id}`}>
+                        <span>{task.title}</span>
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <p>No tasks found.</p>
+                )}
+              </ul>
+              <button className="btn-primary">+</button>
+            </div>
+        </Col>
+        <Col className="border-top border-bottom border-end p-3 text-center">
+          <h3>Timer</h3>
+        </Col>
+      </Row>
+    </Container>
   );
 }
