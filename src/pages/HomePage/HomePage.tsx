@@ -99,7 +99,7 @@ export default function HomePage() {
                   <p>No tasks found.</p>
                 )}
               </ul>
-              <button className="btn-primary">+</button>
+              <button className="btn-primary" onClick={()=>navigate(`/tasks/new/${activeProjectId}`)}>+</button>
             </div>
         </Col>
         <Col className="border-top border-bottom border-end p-3 text-center">
