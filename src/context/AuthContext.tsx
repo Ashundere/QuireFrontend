@@ -11,23 +11,26 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<DecodedToken | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const isAuthenticated = !!user;
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
       try {
-        const decoded = jwtDecode<DecodedToken>(token);
+        const decoded = jwtDecode<DecodedToken>(storedToken);
+
         if (decoded.exp * 1000 < Date.now()) {
-          localStorage.removeItem('token');
+          handleLogout();
         } else {
           setUser(decoded);
         }
       } catch (error) {
         console.error("Invalid token", error);
-        localStorage.removeItem('token');
+        handleLogout();
       }
     }
     setLoading(false);
@@ -37,21 +40,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('token', token);
     const decoded = jwtDecode<DecodedToken>(token);
     setUser(decoded);
-    setIsAuthenticated(true)
-
   };
 
-  const token = localStorage.getItem("token")
-  const logout = () => {
+  const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem("username")
-    setIsAuthenticated(false)
+    localStorage.removeItem("username");
     setUser(null);
-    navigate("/")
+    navigate("/");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, token, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout: handleLogout, loading, token, isAuthenticated }}>
       {!loading && children}
     </AuthContext.Provider>
   );

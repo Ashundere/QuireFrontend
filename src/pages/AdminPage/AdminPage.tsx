@@ -5,7 +5,16 @@ import { useAuth } from "../../hooks/useAuth";
 export default function AdminPage(){
     const navigate = useNavigate()
     const { toggleTheme, theme } = useTheme()
-    const { logout } = useAuth()
+    const { logout, isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) {
+    return (
+      <div className="login-prompt">
+        <h1>Please Log In</h1>
+        <button onClick={() => navigate("/login")}>Log In</button>
+      </div>
+    );
+  }
     
     return(
         <div className="page">

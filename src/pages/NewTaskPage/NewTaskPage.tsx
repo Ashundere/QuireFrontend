@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 const NewTaskPage = () => {
   const navigate = useNavigate();
-  const {user} = useAuth()
+  const {user, isAuthenticated} = useAuth()
   const apiUrl = import.meta.env.VITE_API_URL;
     const { ID } = useParams<{ ID: string }>();
     console.log(ID)
@@ -44,6 +44,14 @@ const NewTaskPage = () => {
     }
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="login-prompt">
+        <h1>Please Log In</h1>
+        <button onClick={() => navigate("/login")}>Log In</button>
+      </div>
+    );
+  }
   return (
     <div>
       <form

@@ -10,6 +10,7 @@ import darkLinesLeft from "../../assets/linedesigndarkleft.png";
 import lightLinesLeft from "../../assets/linedesignlightleft.png";
 import { useFetch } from "../../hooks/useFetch";
 import type { ProjectItemProps, TasksResponse } from "../../types";
+import { useAuth } from "../../hooks/useAuth";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function HomePage() {
@@ -18,19 +19,25 @@ export default function HomePage() {
     dateStyle: "full",
   });
   const { isDarkMode } = useTheme();
+  const { isAuthenticated } = useAuth();
   const activeProjectId = localStorage.getItem("activeProjectId");
   const fetchUrl = activeProjectId
     ? `${apiUrl}/projects/${activeProjectId}`
     : null;
-  const {
-    data: project
-  } = useFetch<ProjectItemProps>(fetchUrl);
+  const { data: project } = useFetch<ProjectItemProps>(fetchUrl);
 
-  const {
-    data: tasks
-  } = useFetch<TasksResponse>(`${apiUrl}/projects/${activeProjectId}/tasks`);
+  const { data: tasks } = useFetch<TasksResponse>(
+    `${apiUrl}/projects/${activeProjectId}/tasks`,
+  );
 
-
+    if (!isAuthenticated) {
+    return (
+      <div className="login-prompt">
+        <h1>Please Log In</h1>
+        <button onClick={() => navigate("/login")}>Log In</button>
+      </div>
+    );
+  }
 
   return (
     <div className="home-page">
@@ -41,7 +48,7 @@ export default function HomePage() {
             alt="Quire Logo which is a book with a quill writing in it, with the name Quire above it"
           />
           <div className="hero-info">
-            <h2>{`Welcome, ${localStorage.getItem("username")}`}</h2>
+              <h2>{`Welcome, ${localStorage.getItem("username")}`}</h2>
             <h4>{currentDate}</h4>
             <LiveClock />
           </div>

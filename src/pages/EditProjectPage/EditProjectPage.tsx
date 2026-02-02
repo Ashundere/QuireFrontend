@@ -5,10 +5,12 @@ import axios from "axios";
 import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import type { ProjectItemProps } from "../../types";
+import { useAuth } from "../../hooks/useAuth";
 
 
 export default function EditProjectPage(){
   const navigate = useNavigate();
+  const isAuthenticated = useAuth()
   const apiUrl = import.meta.env.VITE_API_URL;
   const { execute: editProject} = usePut()
     const { ID } = useParams<{ ID: string }>();
@@ -40,10 +42,7 @@ export default function EditProjectPage(){
     setError(null);
 
     try {
-      console.log("Form Submitted:", formData);
-
- 
-      const response = editProject(`${apiUrl}/projects/${ID}`, formData);
+        const response = editProject(`${apiUrl}/projects/${ID}`, formData);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const serverMessage =
@@ -58,6 +57,14 @@ export default function EditProjectPage(){
     }
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="login-prompt">
+        <h1>Please Log In</h1>
+        <button onClick={() => navigate("/login")}>Log In</button>
+      </div>
+    );
+  }
   return (
     <form
       onSubmit={handleSubmit}

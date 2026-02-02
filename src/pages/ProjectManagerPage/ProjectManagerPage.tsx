@@ -1,11 +1,13 @@
 import { useNavigate} from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import type { ProjectsResponse} from "../../types";
+import { useAuth } from "../../hooks/useAuth";
 const apiUrl = import.meta.env.VITE_API_URL
 
 export default function ProjectManagerPage(){
 
-const navigate = useNavigate()
+const navigate = useNavigate();
+const isAuthenticated = useAuth();
   const { data, loading, error } = useFetch<ProjectsResponse>(
     `${apiUrl}/projects`
   );
@@ -14,7 +16,14 @@ const navigate = useNavigate()
   if (loading) return <p>Loading Projects...</p>;
   if (error) return <p>Error: {error}</p>;
 
-    console.log(data)
+  if (!isAuthenticated) {
+    return (
+      <div className="login-prompt">
+        <h1>Please Log In</h1>
+        <button onClick={() => navigate("/login")}>Log In</button>
+      </div>
+    );
+  }
   return (
     <div>
     <ul style={{ listStyle: 'none', padding: 0 }}>
