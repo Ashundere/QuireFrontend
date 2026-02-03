@@ -33,10 +33,10 @@ export default function HomePage() {
 
   if (!isAuthenticated) {
     return (
-      <Container className="d-flex justify-content-center align-items-center">
+      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
         <Card
           style={{ width: "18rem" }}
-          className="d-flex justify-content-center align-items-center"
+          className="text-center"
         >
           <Card.Body>
             <Card.Title>Please Log In</Card.Title>
@@ -67,13 +67,15 @@ export default function HomePage() {
           <Sidebar />
         </Col>
         <Col xs lg="6" className="border-top border-bottom border-end p-3">
-            <div className="display-list-header">
-              <img
+            <div className="d-flex justify-content-center">
+              <Image
+                className="w-25"
                 src={isDarkMode ? lightLinesRight : darkLinesRight}
                 alt="Decorative Lines"
               />
               <h1>Active Project</h1>
-              <img
+              <Image
+                className="w-25"
                 src={isDarkMode ? lightLinesLeft : darkLinesLeft}
                 alt="Decorative Lines"
               />

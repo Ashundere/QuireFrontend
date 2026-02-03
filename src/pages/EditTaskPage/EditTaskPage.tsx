@@ -6,6 +6,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import type { TaskItemProps } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
+import { Button, Card, Container } from "react-bootstrap";
 
 export default function EditTaskPage() {
   const navigate = useNavigate();
@@ -61,10 +62,19 @@ export default function EditTaskPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="login-prompt">
-        <h1>Please Log In</h1>
-        <button onClick={() => navigate("/login")}>Log In</button>
-      </div>
+      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
+        <Card
+          style={{ width: "18rem" }}
+          className="text-center"
+        >
+          <Card.Body>
+            <Card.Title>Please Log In</Card.Title>
+            <Button variant="primary" onClick={() => navigate("/")}>
+              Log In
+            </Button>
+          </Card.Body>
+        </Card>
+      </Container>
     );
   }
   return (

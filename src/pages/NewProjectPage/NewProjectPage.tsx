@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { usePost } from "../../hooks/usePost";
+import { Button, Card, Container } from "react-bootstrap";
 
 const NewProjectPage = () => {
   const navigate = useNavigate();
@@ -37,10 +38,19 @@ const NewProjectPage = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="login-prompt">
-        <h1>Please Log In</h1>
-        <button onClick={() => navigate("/login")}>Log In</button>
-      </div>
+      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
+        <Card
+          style={{ width: "18rem" }}
+          className="text-center"
+        >
+          <Card.Body>
+            <Card.Title>Please Log In</Card.Title>
+            <Button variant="primary" onClick={() => navigate("/")}>
+              Log In
+            </Button>
+          </Card.Body>
+        </Card>
+      </Container>
     );
   }
   return (

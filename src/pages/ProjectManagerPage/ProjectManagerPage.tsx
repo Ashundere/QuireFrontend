@@ -2,6 +2,7 @@ import { useNavigate} from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import type { ProjectsResponse} from "../../types";
 import { useAuth } from "../../hooks/useAuth";
+import { Button, Card, Container } from "react-bootstrap";
 const apiUrl = import.meta.env.VITE_API_URL
 
 export default function ProjectManagerPage(){
@@ -18,10 +19,19 @@ const isAuthenticated = useAuth();
 
   if (!isAuthenticated) {
     return (
-      <div className="login-prompt">
-        <h1>Please Log In</h1>
-        <button onClick={() => navigate("/login")}>Log In</button>
-      </div>
+      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
+        <Card
+          style={{ width: "18rem" }}
+          className="text-center"
+        >
+          <Card.Body>
+            <Card.Title>Please Log In</Card.Title>
+            <Button variant="primary" onClick={() => navigate("/")}>
+              Log In
+            </Button>
+          </Card.Body>
+        </Card>
+      </Container>
     );
   }
   return (
