@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { Button, Card, Container, Form, Nav, Stack } from "react-bootstrap";
 import { BrightnessHighFill } from "react-bootstrap-icons";
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const { toggleTheme, theme } = useTheme();
   const { logout, isAuthenticated } = useAuth();
+
+  const notYou = () => {
+    logout();
+    navigate("/");
+  };
 
   if (!isAuthenticated) {
     return (
@@ -27,20 +32,33 @@ export default function AdminPage() {
     );
   }
 
+
   return (
-    <div className="page">
-      <h1>{`Welcome, ${localStorage.getItem("username")}`}</h1>
-      <p>Not you?</p>
-      <button onClick={logout}>Log Out</button>
-      <button onClick={() => navigate(-1)}>Return Home</button>
-      <Form>
-        <Form.Check
-          type="switch"
-          id="theme-switch"
-          onChange={toggleTheme}
-        />
-      </Form>
-      <BrightnessHighFill/>
-    </div>
+    <Container
+      className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+      fluid
+    >
+      <Card style={{ width: "22rem" }} className="text-center">
+        <Card.Body>
+          <Card.Title className="fs-1">{`Welcome, ${localStorage.getItem("username")}`}</Card.Title>
+          <Stack className="gap-1">
+            <Button variant="primary" onClick={() => notYou()}>Not You?</Button>
+            <Button variant="primary" onClick={logout}>
+              Log Out
+            </Button>
+            <div>
+              <Form>
+                <Form.Check
+                  type="switch"
+                  id="theme-switch"
+                  onChange={toggleTheme}
+                />
+              </Form>
+              <BrightnessHighFill />
+            </div>
+          </Stack>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import type { FormData } from '../../types';
+import { Button, Container, Form } from 'react-bootstrap';
 
 
 
@@ -21,13 +22,6 @@ const SignupForm = () => {
     }));
   };
 
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault(); // Prevents page reload
-//     console.log('Form Submitted:', formData);
-//     // Add your signup logic or API call here
-//     //POST /users/register
-//     await axios.post('/users/register', formData)
-//   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,46 +52,56 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '300px' }}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
+    <Form onSubmit={handleSubmit}  className='d-flex flex-column justify-content-center gap-3 m-2'>
+      <Form.Group className="mb-3" controlId="formBasicUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control 
+          type="text" 
+          placeholder="CoolUsername123" 
           id="username"
           name="username"
           value={formData.username}
           onChange={handleChange}
-          required
-        />
-      </div>
-
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
+          required/>
+          <Form.Text className="text-muted">
+          Create something unique!
+        </Form.Text>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email:</Form.Label>
+        <Form.Control 
+          type="email" 
+          placeholder="JohnEmail@email.com" 
           id="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          required
-        />
-      </div>
-        <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="text"
+          required/>
+          <Form.Text className="text-muted">
+          We will never share your email!
+        </Form.Text>
+      </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control 
+          type="text" 
+          placeholder="**********" 
           id="password"
           name="password"
           value={formData.password}
+          minLength={8}
           onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Registering...' : 'Sign Up'}
-      </button>
-    </form>
+          required/>
+          <Form.Text className="text-muted">
+          Password must be at least 8 characters long!
+        </Form.Text>
+      </Form.Group>
+      <Button variant="primary" type="submit" disabled ={isLoading}>
+        {isLoading ? 'Registering...' : 'Submit'}
+      </Button>
+    </Form>
   );
 };
+
 
 export default SignupForm;

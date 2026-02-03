@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from '../../hooks/useAuth';
+import { Button, Form } from 'react-bootstrap';
 
 
 
@@ -54,33 +55,37 @@ const LogInForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '300px' }}>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
+    <Form onSubmit={handleSubmit}  className='d-flex flex-column justify-content-center gap-3 m-2'>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email:</Form.Label>
+        <Form.Control 
+          type="email" 
+          placeholder="JohnEmail@email.com" 
           id="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          required
-        />
-      </div>
-        <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="text"
+          required/>
+      </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control 
+          type="text" 
+          placeholder="**********" 
           id="password"
           name="password"
           value={formData.password}
+          minLength={8}
           onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Logging In...' : 'Log In'}
-      </button>
-    </form>
+          required/>
+          <Form.Text className="text-muted">
+          Password must be at least 8 characters long!
+        </Form.Text>
+      </Form.Group>
+      <Button variant="primary" type="submit" disabled ={isLoading}>
+        {isLoading ? 'Registering...' : 'Submit'}
+      </Button>
+    </Form>
   );
 };
 
