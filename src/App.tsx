@@ -14,15 +14,15 @@ import NewTaskPage from "./pages/NewTaskPage/NewTaskPage";
 import IndividualTaskPage from "./pages/IndividualTaskPage/IndividualTaskPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
-import Navbar from "./components/NavBar/NavBar";
 import EditTaskPage from "./pages/EditTaskPage/EditTaskPage";
 import EditProjectPage from "./pages/EditProjectPage/EditProjectPage";
+import NavbarComponent from './components/NavBar/NavBar';
 
 function App() {
   return (
     <>
     <AppProviders>
-      <Navbar />
+      <NavbarComponent />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="*" element={<PageNotFound />} />
