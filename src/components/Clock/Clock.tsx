@@ -12,15 +12,15 @@ const LiveClock: React.FC = () => {
   };
 
   useEffect(() => {
-    // 1. Set the initial time immediately
+
     setTime(formatTime());
 
-    // 2. Set up an interval to update every minute (60000ms)
+
     const timer = setInterval(() => {
       setTime(formatTime());
     }, 5000);
 
-    // 3. Clean up the interval on unmount to prevent memory leaks
+
     return () => clearInterval(timer);
   }, []);
 

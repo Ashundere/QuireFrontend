@@ -4,12 +4,12 @@ import { useAuth } from './useAuth';
 
 export function usePost<T = unknown, R = unknown>() {
   const [data, setData] = useState<R | null>(null);
-  const [loading, setLoading] = useState<boolean>(false); // Initial state should be false
+  const [loading, setLoading] = useState<boolean>(false); 
   const [error, setError] = useState<string | null>(null);
   
   const { token } = useAuth();
 
-  // We move the logic into a manual 'execute' function
+ 
   const execute = async (url: string, body: T, options?: AxiosRequestConfig) => {
     setLoading(true);
     setError(null);
@@ -23,11 +23,11 @@ export function usePost<T = unknown, R = unknown>() {
         },
       });
       setData(response.data);
-      return response.data; // Return data so you can use it in 'await'
+      return response.data; 
     } catch (err: any) {
       const msg = err.response?.data?.message || err.message || 'Post failed';
       setError(msg);
-      throw err; // Throw so your handleSubmit can catch it
+      throw err; 
     } finally {
       setLoading(false);
     }

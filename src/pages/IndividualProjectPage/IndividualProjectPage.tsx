@@ -1,46 +1,23 @@
-// import { useNavigate } from "react-router-dom"
-// import { useFetch } from '../../hooks/useFetch';
-// import type { ProjectItemProps} from '../../types';
-// import { useParams } from 'react-router';
-// import { useProject } from "../../hooks/useProject";
 
-// const apiUrl = import.meta.env.VITE_API_URL
-
-// export default function IndividualProjectPage(){
-//     const { setActiveProject } = useProject();
-//     const navigate = useNavigate()
-//     const { ID } = useParams<{ ID: string }>();
-//   const { data, loading, error } = useFetch<ProjectItemProps>(
-//     `${apiUrl}/projects/${ID}`
-// );
-
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>Error: {error}</p>;
-
-//   return (
-//   <div>
-//     <h1>{data?.title}</h1>
-//     <p>{data?.description}</p>
-//     <p>{data?.dueDate}</p>
-//     <p>{data?.user}</p>
-//     <button onClick={()=> setActiveProject(data!._id)}>Make Active Project</button>
-//     <button onClick={()=> navigate(`/tasks/new/${ID}`)}>+</button>
-//     <button onClick={()=> navigate("/")}>Return Home</button>
-//   </div>
-//   )
-
-// }
 import { useNavigate, useParams } from "react-router";
 import { useFetch } from "../../hooks/useFetch";
 import type { ProjectItemProps, TasksResponse } from "../../types";
 import { useProject } from "../../hooks/useProject";
 import { useDelete } from "../../hooks/useDelete";
 import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import {
+  ArrowLeft,
+  FilePlusFill,
+  PencilSquare,
+  Star,
+  StarFill,
+  TrashFill,
+} from "react-bootstrap-icons";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function IndividualProjectPage() {
-  const { setActiveProject } = useProject();
+  const { setActiveProject, activeProjectId } = useProject();
   const isAuthenticated = useAuth();
   const navigate = useNavigate();
   const { ID } = useParams<{ ID: string }>();
@@ -54,6 +31,7 @@ export default function IndividualProjectPage() {
       return <p>Cannot Delete Project</p>;
     }
   };
+
   const {
     data: project,
     loading: projectLoading,
@@ -66,17 +44,22 @@ export default function IndividualProjectPage() {
     error: tasksError,
   } = useFetch<TasksResponse>(`${apiUrl}/projects/${ID}/tasks`);
 
+  const toggleActive = () => {
+    activeProjectId === project!._id
+      ? setActiveProject(null)
+      : setActiveProject(project!._id);
+  };
   if (projectLoading || tasksLoading) return <p>Loading...</p>;
   if (projectError || tasksError)
     return <p>Error: {projectError || tasksError}</p>;
   if (!project) return <p>Project not found.</p>;
   if (!isAuthenticated) {
     return (
-      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
-        <Card
-          style={{ width: "18rem" }}
-          className="text-center"
-        >
+      <Container
+        className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+        fluid
+      >
+        <Card style={{ width: "18rem" }} className="text-center">
           <Card.Body>
             <Card.Title>Please Log In</Card.Title>
             <Button variant="primary" onClick={() => navigate("/")}>
@@ -88,34 +71,105 @@ export default function IndividualProjectPage() {
     );
   }
   return (
-    <div>
-      <h1>{project.title}</h1>
-      <p>{project.description}</p>
+    <Container
+      className="vw-100  gap-3 mt-5 pt-6"
+      style={{ paddingTop: "200px" }}
+      fluid
+    >
+      <Row className="d-flex justify-content-start m-0 gap-3">
+        <Col className="d-flex flex-column justify-content-start p-3 gap-3 border-end">
+          <h1>{project.title}</h1>
+          <p>{project.description}</p>
+          <div className="d-flex justify-content-between">
+            <PencilSquare
+              className="hover-button"
+              onClick={() => navigate(`/projects/edit/${ID}`)}
+            />
+            <TrashFill className="hover-button" onClick={deleteAndRoute} />
+          </div>
+        </Col>
+        <Col className=" d-flex flex-column justify-content-start text-align-center p-3">
+          <h3>Tasks for this Project</h3>
+          <div
+            style={{
+              height: "calc(100vh - 150px)",
+              overflowY: "auto",
+              paddingRight: "10px",
+              overflowX: "hidden",
+            }}
+            className="d-flex flex-column align-items-center"
+          >
+            {Array.isArray(tasks) && tasks.length > 0 ? (
+              tasks.map((task) => (
+                <Card
+                  key={task._id}
+                  style={{ width: "50rem", height: "9rem" }}
+                  className="hover-card mb-3"
+                  onClick={()=>navigate(`/tasks/${task._id}`)}
+                >
+                  <Card.Title className="mt-2 mx-2 d-flex justify-content-between align-items-center">
+                    <span>{task.title}</span>
 
-      <h3>Tasks for this Project</h3>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {Array.isArray(tasks) && tasks.length > 0 ? (
-          tasks.map((task) => (
-            <li key={task._id} style={{ margin: "10px 0" }}>
-              <a href={`/tasks/${task._id}`}>
-                <span>{task.title}</span>
-              </a>
-            </li>
-          ))
+                    <span className="text-muted fs-6">
+                      {`Due: ${new Date(task.dueDate).toLocaleDateString("en-US")}`}
+                    </span>
+                  </Card.Title>
+                  <Card.Body className="text-truncate">
+                    <span>{task.description}</span>
+                  </Card.Body>
+                  <Card.Footer className="mt-2 mx-2 d-flex justify-content-between align-items-center">
+                    <span className="text-muted fs-6">{task.status}</span>
+                    <span className="text-muted fs-6">{task.priority}</span>
+                  </Card.Footer>
+                </Card>
+              ))
+            ) : (
+              <p>No tasks found.</p>
+            )}
+          </div>
+        </Col>
+      </Row>
+      <FilePlusFill
+        onClick={() => navigate(`/tasks/new/${ID}`)}
+        className="justify-content-end fs-1 hover-button"
+        style={{
+          position: "fixed",
+          bottom: "40px",
+          right: "40px",
+          fontSize: "3rem",
+          zIndex: 1000,
+          cursor: "pointer",
+        }}
+      />
+      <div
+        onClick={() => toggleActive()}
+        className="hover-button fs-1"
+        style={{
+          position: "fixed",
+          top: "120px",
+          right: "40px",
+          zIndex: 1000,
+          cursor: "pointer",
+        }}
+      >
+        {activeProjectId === project._id ? (
+          <StarFill className="hover-button" />
         ) : (
-          <p>No tasks found.</p>
+          <Star className="hover-button" />
         )}
-      </ul>
-
-      <button onClick={() => setActiveProject(project._id)}>
-        Make Active Project
-      </button>
-      <button onClick={() => navigate(`/projects/edit/${ID}`)}>
-        Edit Project
-      </button>
-      <button onClick={() => navigate(`/tasks/new/${ID}`)}>+</button>
-      <button onClick={deleteAndRoute}>Delete</button>
-      <button onClick={() => navigate(-1)}>Return</button>
-    </div>
+      </div>
+      <ArrowLeft
+        onClick={() => navigate(-1)}
+        className="justify-content-start hover-button"
+        style={{
+          position: "fixed",
+          top: "120px",
+          left: "40px",
+          fontSize: "2.5rem",
+          zIndex: 1000,
+          cursor: "pointer",
+        }}
+      />
+    </Container>
   );
 }

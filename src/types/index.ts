@@ -1,12 +1,12 @@
-// 1. Define the structure of your JWT payload
+
 export interface DecodedToken {
   id: string;
   email: string;
-  exp: number; // Expiration time (unix timestamp)
+  exp: number; 
   iat?: number;
 }
 
-// 2. Define the Context interface
+
 export interface AuthContextType {
   user: DecodedToken | null;
   login: (token: string) => void;

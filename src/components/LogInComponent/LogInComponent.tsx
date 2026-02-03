@@ -14,7 +14,7 @@ const LogInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Handles updates for both input fields dynamically
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -27,13 +27,13 @@ const LogInForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null); // Clear previous errors
+    setError(null); 
 
     try {
       console.log('Form Submitted:', formData);
 
       
-      // POST request to your backend
+    
       const response = await axios.post(`${apiUrl}/users/login`, formData);
       const token = response.data.token
       const userName = response.data.user.username
@@ -41,7 +41,7 @@ const LogInForm = () => {
       localStorage.setItem('username', userName)
       navigate("/home")
     } catch (err) {
-      // TypeScript narrowing for Axios errors
+ 
       if (axios.isAxiosError(err)) {
         const serverMessage = err.response?.data?.message || 'Server error occurred';
         setError(serverMessage);

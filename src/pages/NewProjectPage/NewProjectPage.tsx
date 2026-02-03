@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { usePost } from "../../hooks/usePost";
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { ArrowLeft } from "react-bootstrap-icons";
 
 const NewProjectPage = () => {
   const navigate = useNavigate();
@@ -28,9 +28,7 @@ const NewProjectPage = () => {
 
     try {
       await createProject(`${apiUrl}/projects`, formData);
-
-      alert("Project added successfully!");
-      navigate("/home");
+      navigate(-1);
     } catch (err) {
       console.error("Project creation failed:", err);
     }
@@ -38,11 +36,11 @@ const NewProjectPage = () => {
 
   if (!isAuthenticated) {
     return (
-      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
-        <Card
-          style={{ width: "18rem" }}
-          className="text-center"
-        >
+      <Container
+        className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+        fluid
+      >
+        <Card style={{ width: "18rem" }} className="text-center">
           <Card.Body>
             <Card.Title>Please Log In</Card.Title>
             <Button variant="primary" onClick={() => navigate("/")}>
@@ -54,55 +52,77 @@ const NewProjectPage = () => {
     );
   }
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          maxWidth: "300px",
-        }}
-      >
-        <div>
-          <label htmlFor="Title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
+    <Container
+      className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+      fluid
+    >
+      <Row className="m-0">
+        <Col xs={1} className=" justify-content-start p-3">
+          <ArrowLeft
+            onClick={() => navigate(-1)}
+            className="justify-content-start"
+            style={{
+              position: "fixed",
+              top: "120px",
+              left: "40px",
+              fontSize: "2.5rem",
+              zIndex: 1000,
+              cursor: "pointer",
+            }}
           />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="dueDate">Due Date:</label>
-          <input
-            type="date"
-            id="dueDate"
-            name="dueDate"
-            value={formData.dueDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Adding Project..." : "Add Project"}
-        </button>
-      </form>
-      <button onClick={() => navigate(-1)}>Return</button>
-    </div>
+        </Col>
+        <Col xs={11}>
+          <Card className="d-flex justify-content-center align-items-center">
+            <h1> New Project </h1>
+            <Form
+              onSubmit={handleSubmit}
+              className="d-flex flex-column justify-content-center gap-3 m-2"
+            >
+              <Form.Group className="mb-3" controlId="formBasicTitle">
+                <Form.Label>Title:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="My Super Awesome Title"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDescription">
+                <Form.Label>Description:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  type="text"
+                  placeholder="My Super Awesome Description"
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDueDate">
+                <Form.Label>Due Date:</Form.Label>
+                <Form.Control
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit" disabled={loading}>
+                {loading ? "Adding Project..." : "Add Project"}
+              </Button>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

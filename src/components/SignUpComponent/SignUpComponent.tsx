@@ -13,7 +13,7 @@ const SignupForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Handles updates for both input fields dynamically
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -26,19 +26,19 @@ const SignupForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
       console.log('Form Submitted:', formData);
       
-      // POST request to your backend
+
       await axios.post(`${apiUrl}/users/register`, formData);
       
       alert('Success! User registered.');
-      // Optional: Reset form or redirect
+
       navigate("/home")
     } catch (err) {
-      // TypeScript narrowing for Axios errors
+
       if (axios.isAxiosError(err)) {
         const serverMessage = err.response?.data?.message || 'Server error occurred';
         setError(serverMessage);

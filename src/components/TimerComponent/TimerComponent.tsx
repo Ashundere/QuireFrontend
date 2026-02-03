@@ -39,7 +39,7 @@ const LONG_BREAK_DURATION = 15 * 60; // 15 minutes in seconds
   useEffect(() => {
     if (secondsLeft === 0) {
       clearInterval(intervalRef.current!);
-      // In a real app, you might play a sound notification here
+
       handleNextMode();
     }
   }, [secondsLeft]);

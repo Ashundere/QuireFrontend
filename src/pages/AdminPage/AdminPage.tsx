@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { useAuth } from "../../hooks/useAuth";
 import { Button, Card, Container, Form, Nav, Stack } from "react-bootstrap";
-import { BrightnessHighFill } from "react-bootstrap-icons";
+import { ArrowLeft, BrightnessHighFill } from "react-bootstrap-icons";
 
 export default function AdminPage() {
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ export default function AdminPage() {
     );
   }
 
-
   return (
     <Container
       className="vh-100 vw-100 d-flex justify-content-center align-items-center"
@@ -42,7 +41,9 @@ export default function AdminPage() {
         <Card.Body>
           <Card.Title className="fs-1">{`Welcome, ${localStorage.getItem("username")}`}</Card.Title>
           <Stack className="gap-1">
-            <Button variant="primary" onClick={() => notYou()}>Not You?</Button>
+            <Button variant="primary" onClick={() => notYou()}>
+              Not You?
+            </Button>
             <Button variant="primary" onClick={logout}>
               Log Out
             </Button>
@@ -59,6 +60,18 @@ export default function AdminPage() {
           </Stack>
         </Card.Body>
       </Card>
+      <ArrowLeft
+        onClick={() => navigate(-1)}
+        className="justify-content-start hover-button"
+        style={{
+          position: "fixed",
+          top: "120px",
+          left: "40px",
+          fontSize: "2.5rem",
+          zIndex: 1000,
+          cursor: "pointer",
+        }}
+      />
     </Container>
   );
 }

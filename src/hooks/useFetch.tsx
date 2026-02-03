@@ -42,8 +42,8 @@ export function useFetch<T = unknown>(url: string | null, options?: AxiosRequest
 
     fetchData();
 
-    return () => controller.abort(); // Cleanup
-  }, [url, token]); // Re-run if URL or Auth Token changes
+    return () => controller.abort();
+  }, [url, token]);
 
   return { data, loading, error };
 };

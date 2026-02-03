@@ -76,6 +76,14 @@ const NewTaskPage = () => {
           <ArrowLeft
             onClick={() => navigate(-1)}
             className="justify-content-start"
+            style={{
+              position: "fixed",
+              top: "120px",
+              left: "40px",
+              fontSize: "2.5rem",
+              zIndex: 1000,
+              cursor: "pointer",
+            }}
           />
         </Col>
         <Col xs={11}>

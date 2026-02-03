@@ -86,25 +86,47 @@ export default function HomePage() {
               <div>
                 <h1>{project?.title}</h1>
                 <p>{project?.description}</p>
-                <p>{project?.dueDate}</p>
-                <p>{project?.user}</p>
+                <p>{`Due: ${new Date(project?.dueDate).toLocaleDateString("en-US")}`}</p>
               </div>
-              <h3>Tasks for this Project</h3>
-              <ul style={{ listStyle: "none", padding: 0 }}>
-                {Array.isArray(tasks) && tasks.length > 0 ? (
-                  tasks.map((task) => (
-                    <li key={task._id} style={{ margin: "10px 0" }}>
-                      <a href={`/tasks/${task._id}`}>
-                        <span>{task.title}</span>
-                      </a>
-                    </li>
-                  ))
-                ) : (
-                  <p>No tasks found.</p>
-                )}
-              </ul>
-              <button className="btn-primary" onClick={()=>navigate(`/tasks/new/${activeProjectId}`)}>+</button>
-            </div>
+              </div>
+          <h3>Tasks for this Project</h3>
+          <div
+            style={{
+              height: "calc(100vh - 150px)",
+              overflowY: "auto",
+              paddingRight: "10px",
+              overflowX: "hidden",
+            }}
+            className="d-flex flex-column align-items-center"
+          >
+            {Array.isArray(tasks) && tasks.length > 0 ? (
+              tasks.map((task) => (
+                <Card
+                  key={task._id}
+                  style={{ width: "50rem", height: "9rem" }}
+                  className="hover-card mb-3"
+                  onClick={()=>navigate(`/tasks/${task._id}`)}
+                >
+                  <Card.Title className="mt-2 mx-2 d-flex justify-content-between align-items-center">
+                    <span>{task.title}</span>
+
+                    <span className="text-muted fs-6">
+                      {`Due: ${new Date(task.dueDate).toLocaleDateString("en-US")}`}
+                    </span>
+                  </Card.Title>
+                  <Card.Body className="text-truncate">
+                    <span>{task.description}</span>
+                  </Card.Body>
+                  <Card.Footer className="mt-2 mx-2 d-flex justify-content-between align-items-center">
+                    <span className="text-muted fs-6">{task.status}</span>
+                    <span className="text-muted fs-6">{task.priority}</span>
+                  </Card.Footer>
+                </Card>
+              ))
+            ) : (
+              <p>No tasks found.</p>
+            )}
+          </div>
         </Col>
         <Col className="border-top border-bottom border-end p-3 text-center">
           <HourglassSplit/>

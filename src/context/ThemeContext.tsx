@@ -7,7 +7,7 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 );
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  // Initialize state from localStorage or default to system preference
+
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem("theme") as Theme;
     if (savedTheme) return savedTheme;
@@ -20,11 +20,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    // 1. Save choice to localStorage
+
     localStorage.setItem("theme", theme);
-    // 2. Apply theme class to document for global CSS styling
+
     const root = window.document.documentElement;
-    // Apply the attribute Bootstrap looks for
+
     root.setAttribute("data-bs-theme", theme);
 
     root.classList.remove("light", "dark");

@@ -15,7 +15,15 @@ export default function SignUpPage() {
         <Col xs={1} className=" justify-content-start p-3">
           <ArrowLeft
             onClick={() => navigate("/")}
-            className="justify-content-start"
+            className="justify-content-start hover-button"
+            style={{
+              position: "fixed",
+              top: "120px",
+              left: "40px",
+              fontSize: "2.5rem",
+              zIndex: 1000,
+              cursor: "pointer",
+            }}
           />
         </Col>
         <Col xs={11}>

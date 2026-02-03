@@ -59,6 +59,28 @@
   width: 15%;
 }
 
+.hover-card {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  background-color: #4a463e;
+  color:#e2c59d;
+}
+
+
+.hover-card:hover {
+  background-color: #767165;
+  color: #e5dac3;            
+  transform: translateY(-5px);
+}
+.hover-button {
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-button:hover {
+transform: scale(1.3)  ;       
+}
 @media (max-width: 500px) {
   .hero-img {
     display: none;
