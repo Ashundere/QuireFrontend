@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/SideBar/SideBar";
 import LiveClock from "../../components/Clock/Clock";
+import PomodoroTimer from "../../components/TimerComponent/TimerComponent";
 import { useTheme } from "../../hooks/useTheme";
 import darkLogo from "../../assets/QuireLogoDark.png";
 import lightLogo from "../../assets/QuireLogoLight.png";
@@ -12,6 +13,7 @@ import { useFetch } from "../../hooks/useFetch";
 import type { ProjectItemProps, TasksResponse } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
 import { Card, Button, Container, Row, Col, Image} from "react-bootstrap";
+import { HourglassSplit } from "react-bootstrap-icons";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function HomePage() {
@@ -51,9 +53,9 @@ export default function HomePage() {
 
   return (
     <Container fluid>
-      <Row>
+      <Row className="m-auto pt-5">
           <Image
-            className="w-25"
+            className="hero-img"
             src={isDarkMode ? lightLogo : darkLogo}
             alt="Quire Logo which is a book with a quill writing in it, with the name Quire above it"
             fluid
@@ -69,13 +71,13 @@ export default function HomePage() {
         <Col xs lg="6" className="border-top border-bottom border-end p-3">
             <div className="d-flex justify-content-center">
               <Image
-                className="w-25"
+                className="display-list-img"
                 src={isDarkMode ? lightLinesRight : darkLinesRight}
                 alt="Decorative Lines"
               />
               <h1>Active Project</h1>
               <Image
-                className="w-25"
+                className="display-list-img"
                 src={isDarkMode ? lightLinesLeft : darkLinesLeft}
                 alt="Decorative Lines"
               />
@@ -105,7 +107,8 @@ export default function HomePage() {
             </div>
         </Col>
         <Col className="border-top border-bottom border-end p-3 text-center">
-          <h3>Timer</h3>
+          <HourglassSplit/>
+          <PomodoroTimer/>
         </Col>
       </Row>
     </Container>

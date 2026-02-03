@@ -60,3 +60,5 @@ export interface TasksResponse {
 export interface ProjectsResponse {
   projects: ProjectItemProps[]
 }
+
+export type TimerMode = 'pomodoro' | 'shortBreak' | 'longBreak';

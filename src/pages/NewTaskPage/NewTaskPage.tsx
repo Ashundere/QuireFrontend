@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { usePost } from "../../hooks/usePost";
 import { useParams } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { ArrowLeft } from "react-bootstrap-icons";
 
 const NewTaskPage = () => {
   const navigate = useNavigate();
-  const {user, isAuthenticated} = useAuth()
+  const { user, isAuthenticated } = useAuth();
   const apiUrl = import.meta.env.VITE_API_URL;
-    const { ID } = useParams<{ ID: string }>();
-    console.log(ID)
+  const { ID } = useParams<{ ID: string }>();
+  console.log(ID);
   const { execute: createTask, loading } = usePost();
 
   const [formData, setFormData] = useState({
@@ -20,14 +21,16 @@ const NewTaskPage = () => {
     status: "To Do",
     priority: "Low",
     project: ID,
-    user: user?.id
+    user: user?.id,
   });
 
-    console.log("User ID:", user?.id)
+  console.log("User ID:", user?.id);
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -35,7 +38,7 @@ const NewTaskPage = () => {
     e.preventDefault();
 
     try {
-        console.log(formData)
+      console.log(formData);
       await createTask(`${apiUrl}/projects/${ID}/tasks`, formData);
 
       alert("Task added successfully!");
@@ -47,11 +50,11 @@ const NewTaskPage = () => {
 
   if (!isAuthenticated) {
     return (
-      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
-        <Card
-          style={{ width: "18rem" }}
-          className="text-center"
-        >
+      <Container
+        className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+        fluid
+      >
+        <Card style={{ width: "18rem" }} className="text-center">
           <Card.Body>
             <Card.Title>Please Log In</Card.Title>
             <Button variant="primary" onClick={() => navigate("/")}>
@@ -62,82 +65,93 @@ const NewTaskPage = () => {
       </Container>
     );
   }
+
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          maxWidth: "300px",
-        }}
-      >
-        <div>
-          <label htmlFor="Title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
+    <Container
+      className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+      fluid
+    >
+      <Row className="m-0">
+        <Col xs={1} className=" justify-content-start p-3">
+          <ArrowLeft
+            onClick={() => navigate(-1)}
+            className="justify-content-start"
           />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="dueDate">Due Date:</label>
-          <input
-            type="date"
-            id="dueDate"
-            name="dueDate"
-            value={formData.dueDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="status">Status:</label>
-          <select
-            id="status"
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-          >
-            <option value="To Do">To Do</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="priority">Priority:</label>
-          <select
-            id="priority"
-            name="priority"
-            value={formData.priority}
-            onChange={handleChange}
-          >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Adding Task..." : "Add Task"}
-        </button>
-      </form>
-      <button onClick={() => navigate(-1)}>Return</button>
-    </div>
+        </Col>
+        <Col xs={11}>
+          <Card className="d-flex justify-content-center align-items-center">
+            <h1> Sign Up </h1>
+            <Form
+              onSubmit={handleSubmit}
+              className="d-flex flex-column justify-content-center gap-3 m-2"
+            >
+              <Form.Group className="mb-3" controlId="formBasicTitle">
+                <Form.Label>Title:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="My Super Awesome Title"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDescription">
+                <Form.Label>Description:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  type="text"
+                  placeholder="My Super Awesome Description"
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDueDate">
+                <Form.Label>Due Date:</Form.Label>
+                <Form.Control
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Select
+                aria-label="Status Select Menu"
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </Form.Select>
+              <Form.Select
+                aria-label="Priority Select Menu"
+                id="priority"
+                name="priority"
+                value={formData.priority}
+                onChange={handleChange}
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </Form.Select>
+              <Button variant="primary" type="submit" disabled={loading}>
+                {loading ? "Adding Task..." : "Add Task"}
+              </Button>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
