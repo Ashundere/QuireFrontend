@@ -50,28 +50,43 @@ export default function IndividualProjectPage() {
       ? setActiveProject(null)
       : setActiveProject(currentId);
   };
-  if (authLoading) return <p>Verifying session...</p>;
-  if (projectLoading || tasksLoading) return <p>Loading...</p>;
-  if (projectError || tasksError)
-    return <p>Error: {projectError || tasksError}</p>;
-  if (!project) return <p>Project not found.</p>;
+  if (authLoading || projectLoading || tasksLoading) {
+    return (
+      <Container className="vh-100 d-flex justify-content-center align-items-center">
+        <p>Loading project details...</p>
+      </Container>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <Container
         className="vh-100 vw-100 d-flex justify-content-center align-items-center"
         fluid
       >
-        <Card style={{ width: "18rem" }} className="text-center">
+        <Card style={{ width: "18rem" }} className="text-center shadow">
           <Card.Body>
-            <Card.Title>Please Log In</Card.Title>
+            <Card.Title>Session Expired</Card.Title>
+            <Card.Text>Please log in to view this project.</Card.Text>
             <Button variant="primary" onClick={() => navigate("/")}>
-              Log In
+              Go to Login
             </Button>
           </Card.Body>
         </Card>
       </Container>
     );
   }
+    if (projectError || tasksError) {
+    return (
+      <Container className="mt-5">
+        <p className="text-danger">Error: {String(projectError || tasksError)}</p>
+        <Button onClick={() => navigate(-1)}>Go Back</Button>
+      </Container>
+    );
+  }
+
+  if (!project) return <p>Project not found.</p>;
+
   return (
     <Container
       className="vw-100  gap-3 mt-5 pt-6"
