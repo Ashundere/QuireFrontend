@@ -2,7 +2,7 @@ import { BrightnessHighFill, GearFill } from "react-bootstrap-icons";
 import darkLogo from "../../assets/QuireLogoDark.png";
 import lightLogo from "../../assets/QuireLogoLight.png";
 import { useTheme } from "../../hooks/useTheme";
-import { Image, Navbar, Form, Container, Nav } from "react-bootstrap";
+import { Image, Navbar, Form, Container} from "react-bootstrap";
 
 import { Link, useNavigate } from "react-router";
 const NavbarComponent = () => {
