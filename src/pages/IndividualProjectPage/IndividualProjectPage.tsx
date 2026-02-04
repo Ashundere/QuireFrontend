@@ -35,13 +35,13 @@ export default function IndividualProjectPage() {
     data: project,
     loading: projectLoading,
     error: projectError,
-  } = useFetch<ProjectItemProps>(`${apiUrl}/projects/${ID}`);
+  } = useFetch<ProjectItemProps>(ID ? `${apiUrl}/projects/${ID}` : null);
 
   const {
     data: tasks,
     loading: tasksLoading,
     error: tasksError,
-  } = useFetch<TasksResponse>(`${apiUrl}/projects/${ID}/tasks`);
+  } = useFetch<TasksResponse>(ID ?`${apiUrl}/projects/${ID}/tasks` : null);
 
   const toggleActive = () => {
     const currentId = project?._id ?? null;
