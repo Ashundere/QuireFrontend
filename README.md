@@ -12,10 +12,7 @@ Using the MERN stack, this app handles authentication and authorization using a 
 
 Make sure you have a .env file with the following variables:
 
-MONGO_URI
-PORT
-JWT_SECRET
-CLIENT_ORIGIN
+VITE_API_URL
 
 
 ### Link
