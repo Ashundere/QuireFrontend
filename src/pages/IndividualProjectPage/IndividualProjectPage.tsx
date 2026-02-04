@@ -1,4 +1,3 @@
-
 import { useNavigate, useParams } from "react-router";
 import { useFetch } from "../../hooks/useFetch";
 import type { ProjectItemProps, TasksResponse } from "../../types";
@@ -18,7 +17,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function IndividualProjectPage() {
   const { setActiveProject, activeProjectId } = useProject();
-  const isAuthenticated = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { ID } = useParams<{ ID: string }>();
   const { execute: deleteProject } = useDelete();
@@ -44,14 +43,14 @@ export default function IndividualProjectPage() {
     error: tasksError,
   } = useFetch<TasksResponse>(`${apiUrl}/projects/${ID}/tasks`);
 
-const toggleActive = () => {
-  const currentId = project?._id ?? null;
+  const toggleActive = () => {
+    const currentId = project?._id ?? null;
 
-  activeProjectId === currentId
-    ? setActiveProject(null)
-    : setActiveProject(currentId);
-};
-
+    activeProjectId === currentId
+      ? setActiveProject(null)
+      : setActiveProject(currentId);
+  };
+  if (authLoading) return <p>Verifying session...</p>;
   if (projectLoading || tasksLoading) return <p>Loading...</p>;
   if (projectError || tasksError)
     return <p>Error: {projectError || tasksError}</p>;
@@ -108,7 +107,7 @@ const toggleActive = () => {
                   key={task._id}
                   style={{ width: "50rem", height: "9rem" }}
                   className="hover-card mb-3"
-                  onClick={()=>navigate(`/tasks/${task._id}`)}
+                  onClick={() => navigate(`/tasks/${task._id}`)}
                 >
                   <Card.Title className="mt-2 mx-2 d-flex justify-content-between align-items-center">
                     <span>{task.title}</span>
