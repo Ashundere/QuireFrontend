@@ -65,6 +65,7 @@ export default function EditTaskPage() {
       }
     } finally {
       setIsLoading(false);
+      navigate(-1)
     }
   };
 

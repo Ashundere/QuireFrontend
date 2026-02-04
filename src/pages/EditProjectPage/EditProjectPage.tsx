@@ -59,6 +59,7 @@ export default function EditProjectPage() {
       }
     } finally {
       setIsLoading(false);
+      navigate(-1)
     }
   };
 
