@@ -3,15 +3,21 @@ import { useFetch } from "../../hooks/useFetch";
 import type { ProjectsResponse } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { ArrowLeft, FilePlusFill} from "react-bootstrap-icons";
+import { ArrowLeft, FilePlusFill } from "react-bootstrap-icons";
+import { useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ProjectManagerPage() {
   const navigate = useNavigate();
   const isAuthenticated = useAuth();
-  const { data, loading, error } = useFetch<ProjectsResponse>(
-    `${apiUrl}/projects`,
-  );
+
+  const { execute, data, loading, error } = useFetch<ProjectsResponse>();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      execute(`${apiUrl}/projects`);
+    }
+  }, [isAuthenticated, apiUrl]);
 
   if (loading) return <p>Loading Projects...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -90,8 +96,8 @@ export default function ProjectManagerPage() {
           position: "fixed",
           bottom: "40px",
           right: "40px",
-          fontSize: "3rem", 
-          zIndex: 1000, 
+          fontSize: "3rem",
+          zIndex: 1000,
           cursor: "pointer",
         }}
       />

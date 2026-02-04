@@ -13,6 +13,7 @@ import {
   StarFill,
   TrashFill,
 } from "react-bootstrap-icons";
+import { useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function IndividualProjectPage() {
@@ -31,17 +32,16 @@ export default function IndividualProjectPage() {
     }
   };
 
-  const {
-    data: project,
-    loading: projectLoading,
-    error: projectError,
-  } = useFetch<ProjectItemProps>(ID ? `${apiUrl}/projects/${ID}` : null);
 
-  const {
-    data: tasks,
-    loading: tasksLoading,
-    error: tasksError,
-  } = useFetch<TasksResponse>(ID ?`${apiUrl}/projects/${ID}/tasks` : null);
+  const { execute: getProject, data: project, loading: projectLoading, error: projectError } = useFetch<ProjectItemProps>();
+  const { execute: getTasks, data: tasks, loading: tasksLoading, error: tasksError } = useFetch<TasksResponse>();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getProject(`${apiUrl}/projects/${ID}`);
+      getTasks(`${apiUrl}/projects/${ID}/tasks` )
+    }
+  }, [isAuthenticated, apiUrl]);
 
   const toggleActive = () => {
     const currentId = project?._id ?? null;
@@ -76,10 +76,12 @@ export default function IndividualProjectPage() {
       </Container>
     );
   }
-    if (projectError || tasksError) {
+  if (projectError || tasksError) {
     return (
       <Container className="mt-5">
-        <p className="text-danger">Error: {String(projectError || tasksError)}</p>
+        <p className="text-danger">
+          Error: {String(projectError || tasksError)}
+        </p>
         <Button onClick={() => navigate(-1)}>Go Back</Button>
       </Container>
     );

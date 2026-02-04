@@ -14,6 +14,7 @@ import type { ProjectItemProps, TasksResponse } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
 import { Card, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { HourglassSplit } from "react-bootstrap-icons";
+import { useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function HomePage() {
@@ -27,11 +28,16 @@ export default function HomePage() {
   const fetchUrl = activeProjectId
     ? `${apiUrl}/projects/${activeProjectId}`
     : null;
-  const { data: project } = useFetch<ProjectItemProps>(fetchUrl);
 
-  const { data: tasks } = useFetch<TasksResponse>(
-    `${apiUrl}/projects/${activeProjectId}/tasks`,
-  );
+    const { execute: getProject, data: project} = useFetch<ProjectItemProps>();
+    const { execute: getTasks, data: tasks} = useFetch<TasksResponse>();
+  
+    useEffect(() => {
+      if (isAuthenticated) {
+        getProject(fetchUrl!);
+        getTasks(`${apiUrl}/projects/${activeProjectId}/tasks`)
+      }
+    }, [isAuthenticated, apiUrl]);
 
   if (!isAuthenticated) {
     return (

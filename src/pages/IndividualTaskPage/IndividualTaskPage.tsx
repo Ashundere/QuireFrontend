@@ -6,6 +6,7 @@ import { useDelete } from "../../hooks/useDelete";
 import { useAuth } from "../../hooks/useAuth";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { ArrowLeft, PencilSquare, TrashFill } from "react-bootstrap-icons";
+import { useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function IndividualTaskPage() {
@@ -21,10 +22,14 @@ export default function IndividualTaskPage() {
       return <p>Cannot Delete Task</p>;
     }
   };
-  const { data, loading, error } = useFetch<TaskItemProps>(
-    `${apiUrl}/tasks/${ID}`,
-  );
 
+  const { execute, data, loading, error } = useFetch<TaskItemProps>();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      execute(`${apiUrl}/tasks/${ID}`);
+    }
+  }, [isAuthenticated, apiUrl]);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!isAuthenticated) {

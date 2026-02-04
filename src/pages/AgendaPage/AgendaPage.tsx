@@ -4,13 +4,19 @@ import type { TasksResponse } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { ArrowLeft} from "react-bootstrap-icons";
+import { useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function AgendaPage() {
   const navigate = useNavigate();
   const isAuthenticated = useAuth();
-  const { data, loading, error } = useFetch<TasksResponse>(`${apiUrl}/tasks`);
+  const { execute, data, loading, error } = useFetch<TasksResponse>();
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      execute(`${apiUrl}/tasks`);
+    }
+  }, [isAuthenticated, apiUrl]);
   if (loading) return <p>Loading Tasks...</p>;
   if (error) return <p>Error: You must be logged in to do that!</p>;
   if (!isAuthenticated) {
