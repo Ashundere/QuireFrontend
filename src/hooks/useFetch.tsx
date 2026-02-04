@@ -58,7 +58,10 @@ export function useFetch<R = unknown>() {
   const [error, setError] = useState<string | null>(null);
   const { token } = useAuth();
 
-  const execute = async (url: string, options?: AxiosRequestConfig) => {
+  const execute = async (url: string | null | undefined, options?: AxiosRequestConfig) => {
+
+    if (!url) return; 
+
     setLoading(true);
     setError(null);
     try {
@@ -74,7 +77,8 @@ export function useFetch<R = unknown>() {
     } catch (err: any) {
       const msg = err.response?.data?.message || err.message || 'Fetch failed';
       setError(msg);
-      throw err;
+
+      throw err; 
     } finally {
       setLoading(false);
     }
