@@ -1,20 +1,20 @@
-import { useNavigate, useParams } from "react-router";
-import { useFetch } from "../../hooks/useFetch";
-import type { ProjectItemProps, TasksResponse } from "../../types";
-import { useProject } from "../../hooks/useProject";
-import { useDelete } from "../../hooks/useDelete";
-import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import {
-  ArrowLeft,
-  FilePlusFill,
-  PencilSquare,
-  Star,
-  StarFill,
-  TrashFill,
-} from "react-bootstrap-icons";
-import { useEffect } from "react";
-const apiUrl = import.meta.env.VITE_API_URL;
+// import { useNavigate, useParams } from "react-router";
+// import { useFetch } from "../../hooks/useFetch";
+// import type { ProjectItemProps, TasksResponse } from "../../types";
+// import { useProject } from "../../hooks/useProject";
+// import { useDelete } from "../../hooks/useDelete";
+// import { useAuth } from "../../hooks/useAuth";
+// import { Button, Card, Col, Container, Row } from "react-bootstrap";
+// import {
+//   ArrowLeft,
+//   FilePlusFill,
+//   PencilSquare,
+//   Star,
+//   StarFill,
+//   TrashFill,
+// } from "react-bootstrap-icons";
+// import { useEffect } from "react";
+// const apiUrl = import.meta.env.VITE_API_URL;
 
 
 export default function IndividualProjectPage() {
