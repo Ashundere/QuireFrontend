@@ -44,11 +44,14 @@ export default function IndividualProjectPage() {
     error: tasksError,
   } = useFetch<TasksResponse>(`${apiUrl}/projects/${ID}/tasks`);
 
-  const toggleActive = () => {
-    activeProjectId === project!._id
-      ? setActiveProject(null)
-      : setActiveProject(project!._id);
-  };
+const toggleActive = () => {
+  const currentId = project?._id ?? null;
+
+  activeProjectId === currentId
+    ? setActiveProject(null)
+    : setActiveProject(currentId);
+};
+
   if (projectLoading || tasksLoading) return <p>Loading...</p>;
   if (projectError || tasksError)
     return <p>Error: {projectError || tasksError}</p>;
