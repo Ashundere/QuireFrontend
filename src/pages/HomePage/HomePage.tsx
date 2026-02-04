@@ -86,7 +86,7 @@ export default function HomePage() {
               <div>
                 <h1>{project?.title}</h1>
                 <p>{project?.description}</p>
-                <p>{`Due: ${new Date(project?.dueDate).toLocaleDateString("en-US")}`}</p>
+                <p>{`Due: ${new Date(project!.dueDate).toLocaleDateString("en-US")}`}</p>
               </div>
               </div>
           <h3>Tasks for this Project</h3>

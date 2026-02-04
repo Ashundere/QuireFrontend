@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import type { FormData } from '../../types';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 
 

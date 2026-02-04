@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Container, Form, Nav, Stack } from "react-bootstrap";
+import { Button, Card, Container, Form, Stack } from "react-bootstrap";
 import { ArrowLeft, BrightnessHighFill } from "react-bootstrap-icons";
 
 export default function AdminPage() {
   const navigate = useNavigate();
-  const { toggleTheme, theme } = useTheme();
+  const { toggleTheme} = useTheme();
   const { logout, isAuthenticated } = useAuth();
 
   const notYou = () => {

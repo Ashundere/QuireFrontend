@@ -3,7 +3,7 @@ import { useFetch } from "../../hooks/useFetch";
 import type { ProjectsResponse } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { ArrowLeft, FilePlusFill, PlusLg } from "react-bootstrap-icons";
+import { ArrowLeft, FilePlusFill} from "react-bootstrap-icons";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ProjectManagerPage() {

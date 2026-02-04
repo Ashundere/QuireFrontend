@@ -11,6 +11,19 @@ Using the MERN stack, this app handles authentication and authorization using a 
 ## Getting Started
 
 
+Repository:
+
+Quire Backend: https://github.com/Ashundere/QuireBackend
+
+
+
+Live:
+
+Quire Backend: https://quirebackend.onrender.com
+
+Quire Application: https://quirefrontend.onrender.com
+
+
 
 ### Link
 https://ashundere.github.io/React-URL-Shortening-Page/

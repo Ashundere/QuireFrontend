@@ -57,7 +57,7 @@ export default function IndividualTaskPage() {
             <Card.Header className="mt-2 mx-2 d-flex justify-content-between align-items-center text-truncate">
               <span>{data?.title}</span>
               <span className="text-muted fs-6">
-                {`Due: ${new Date(data?.dueDate).toLocaleDateString("en-US")}`}
+                {`Due: ${new Date(data!.dueDate).toLocaleDateString("en-US")}`}
               </span>
             </Card.Header>
             <Card.Title className="mt-2 mx-2 d-flex justify-content-between align-items-center">
