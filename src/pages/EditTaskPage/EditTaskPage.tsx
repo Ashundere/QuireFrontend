@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePut } from "../../hooks/usePut";
 import axios from "axios";
@@ -16,7 +16,14 @@ export default function EditTaskPage() {
   const { execute: editProject } = usePut();
   const { ID } = useParams<{ ID: string }>();
 
-  const { data } = useFetch<TaskItemProps>(`${apiUrl}/tasks/${ID}`);
+
+    const { execute, data} = useFetch<TaskItemProps>();
+  
+    useEffect(() => {
+      if (isAuthenticated) {
+        execute(`${apiUrl}/tasks/${ID}`);
+      }
+    }, [isAuthenticated, apiUrl]);
 
   const [formData, setFormData] = useState({
     title: data?.title,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePut } from "../../hooks/usePut";
 import axios from "axios";
@@ -16,7 +16,13 @@ export default function EditProjectPage() {
   const { execute: editProject } = usePut();
   const { ID } = useParams<{ ID: string }>();
 
-  const { data } = useFetch<ProjectItemProps>(`${apiUrl}/projects/${ID}`);
+  const { execute, data } = useFetch<ProjectItemProps>();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      execute(`${apiUrl}/projects/${ID}`);
+    }
+  }, [isAuthenticated, apiUrl]);
 
   const [formData, setFormData] = useState({
     title: data?.title,
