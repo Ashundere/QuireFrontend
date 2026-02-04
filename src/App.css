@@ -12,6 +12,9 @@
   --bs-dark-rgb: 43, 56, 72;
 }
 
+a {
+  color: inherit;
+}
 .btn-primary {
   --bs-btn-bg: #767165;
   --bs-btn-border-color: #767165;

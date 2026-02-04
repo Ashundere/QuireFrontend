@@ -67,6 +67,7 @@ export default function ProjectManagerPage() {
                 key={project._id}
                 style={{ width: "50rem", height: "6rem" }}
                 className="hover-card mb-3"
+                onClick={()=>navigate(`/projects/${project._id}`)}
               >
                 <Card.Title className="mt-2 mx-2 d-flex justify-content-between align-items-center">
                   <span>{project.title}</span>
@@ -78,10 +79,6 @@ export default function ProjectManagerPage() {
                 <Card.Body className="text-truncate">
                   {project.description}
                 </Card.Body>
-                <a
-                  href={`/projects/${project._id}`}
-                  className="stretched-link"
-                ></a>
               </Card>
             ))
           ) : (
