@@ -25,7 +25,6 @@ function App() {
       <NavbarComponent />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="*" element={<PageNotFound />} />
         <Route path="/login" element={<LogInPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
@@ -38,6 +37,7 @@ function App() {
         <Route path="/user" element={<AdminPage />} />
         <Route path="/tasks/edit/:ID" element={<EditTaskPage/>} />
         <Route path="/projects/edit/:ID" element={<EditProjectPage/>} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </AppProviders>
     </>
