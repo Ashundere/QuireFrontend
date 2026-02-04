@@ -1,11 +1,9 @@
 import { Button, Card, Container, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { useEffect } from "react";
+
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const isAuthenticated = useAuth();
 
 
   return (

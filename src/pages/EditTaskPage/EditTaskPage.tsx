@@ -6,7 +6,8 @@ import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import type { TaskItemProps } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { ArrowLeft } from "react-bootstrap-icons";
 
 export default function EditTaskPage() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function EditTaskPage() {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -45,16 +46,17 @@ export default function EditTaskPage() {
     try {
       console.log("Form Submitted:", formData);
 
-      const response = editProject(`${apiUrl}/tasks/${ID}`, formData);
+      editProject(`${apiUrl}/tasks/${ID}`, formData);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const serverMessage =
           err.response?.data?.message || "Server error occurred";
         setError(serverMessage);
+        return <div>{error && <p className="text-danger">{error}</p>}</div>;
       } else {
         setError("An unexpected error occurred");
+        return <div>{error && <p className="text-danger">{error}</p>}</div>;
       }
-      console.error("Log In failed:", err);
     } finally {
       setIsLoading(false);
     }
@@ -62,11 +64,11 @@ export default function EditTaskPage() {
 
   if (!isAuthenticated) {
     return (
-      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
-        <Card
-          style={{ width: "18rem" }}
-          className="text-center"
-        >
+      <Container
+        className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+        fluid
+      >
+        <Card style={{ width: "18rem" }} className="text-center">
           <Card.Body>
             <Card.Title>Please Log In</Card.Title>
             <Button variant="primary" onClick={() => navigate("/")}>
@@ -78,74 +80,98 @@ export default function EditTaskPage() {
     );
   }
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        maxWidth: "300px",
-      }}
+    <Container
+      className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+      fluid
     >
-      <div>
-        <label htmlFor="Title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <input
-          type="text"
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="dueDate">Due Date:</label>
-        <input
-          type="date"
-          id="dueDate"
-          name="dueDate"
-          value={formData.dueDate}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="status">Status:</label>
-        <select
-          id="status"
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option value="To Do">To Do</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="priority">Priority:</label>
-        <select
-          id="priority"
-          name="priority"
-          value={formData.priority}
-          onChange={handleChange}
-        >
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-      </div>
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? "Editing Task..." : "Edit Task"}
-      </button>
-    </form>
+      <Row className="m-0">
+        <Col xs={1} className=" justify-content-start p-3">
+          <ArrowLeft
+            onClick={() => navigate(-1)}
+            className="justify-content-start"
+            style={{
+              position: "fixed",
+              top: "120px",
+              left: "40px",
+              fontSize: "2.5rem",
+              zIndex: 1000,
+              cursor: "pointer",
+            }}
+          />
+        </Col>
+        <Col xs={11}>
+          <Card className="d-flex justify-content-center align-items-center">
+            <h1> Editing Task </h1>
+            <Form
+              onSubmit={handleSubmit}
+              className="d-flex flex-column justify-content-center gap-3 m-2"
+            >
+              <Form.Group className="mb-3" controlId="formBasicTitle">
+                <Form.Label>Title:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Edit Title"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDescription">
+                <Form.Label>Description:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  type="text"
+                  placeholder="Edit Description"
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDueDate">
+                <Form.Label>Due Date:</Form.Label>
+                <Form.Control
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Select
+                aria-label="Status Select Menu"
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </Form.Select>
+              <Form.Select
+                aria-label="Priority Select Menu"
+                id="priority"
+                name="priority"
+                value={formData.priority}
+                onChange={handleChange}
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </Form.Select>
+              <Button variant="primary" type="submit" disabled={isLoading}>
+                {isLoading ? "Editing Task..." : "Edit Task"}
+              </Button>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};

@@ -24,6 +24,8 @@ const NewTaskPage = () => {
     user: user?.id,
   });
 
+  const [validationError, setValidationError] = useState<string | null>(null);
+
   console.log("User ID:", user?.id);
   const handleChange = (
     event: React.ChangeEvent<
@@ -36,15 +38,34 @@ const NewTaskPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setValidationError(null);
+
+    if (!formData.title.trim() || formData.title.length < 3) {
+      setValidationError("Please enter a title (min 3 characters).");
+      return;
+    }
+
+    if (!formData.description.trim()) {
+      setValidationError("Description cannot be empty.");
+      return;
+    }
+
+    const selectedDate = new Date(formData.dueDate);
+    const todayTimestamp = new Date().setHours(0, 0, 0, 0);
+
+    if (
+      isNaN(selectedDate.getTime()) ||
+      selectedDate.getTime() < todayTimestamp
+    ) {
+      setValidationError("Please select a valid future date.");
+      return;
+    }
 
     try {
-      console.log(formData);
       await createTask(`${apiUrl}/projects/${ID}/tasks`, formData);
-
-      alert("Task added successfully!");
       navigate(-1);
     } catch (err) {
-      console.error("Task creation failed:", err);
+      setValidationError("Failed to save task. Please try again.");
     }
   };
 
@@ -89,6 +110,11 @@ const NewTaskPage = () => {
         <Col xs={11}>
           <Card className="d-flex justify-content-center align-items-center">
             <h1> Sign Up </h1>
+            {validationError && (
+              <div className="alert alert-danger py-2 text-center" role="alert">
+                {validationError}
+              </div>
+            )}
             <Form
               onSubmit={handleSubmit}
               className="d-flex flex-column justify-content-center gap-3 m-2"
@@ -103,6 +129,7 @@ const NewTaskPage = () => {
                   value={formData.title}
                   onChange={handleChange}
                   required
+                  isInvalid={!!validationError && formData.title.length < 3}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicDescription">
@@ -117,6 +144,7 @@ const NewTaskPage = () => {
                   value={formData.description}
                   onChange={handleChange}
                   required
+                  isInvalid={!!validationError && formData.description.length < 10}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicDueDate">
@@ -128,6 +156,7 @@ const NewTaskPage = () => {
                   value={formData.dueDate}
                   onChange={handleChange}
                   required
+                  isInvalid={!!validationError && validationError == "Please select a valid future date."}
                 />
               </Form.Group>
               <Form.Select

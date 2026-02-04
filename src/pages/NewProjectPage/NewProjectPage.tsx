@@ -18,21 +18,47 @@ const NewProjectPage = () => {
     dueDate: "",
   });
 
+  const [validationError, setValidationError] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setValidationError(null);
 
-    try {
-      await createProject(`${apiUrl}/projects`, formData);
-      navigate(-1);
-    } catch (err) {
-      console.error("Project creation failed:", err);
-    }
-  };
+
+  
+
+  if (!formData.title.trim() || formData.title.length < 3) {
+    setValidationError("Please enter a title (min 3 characters).");
+    return; 
+  }
+
+
+  if (!formData.description.trim()) {
+    setValidationError("Description cannot be empty.");
+    return;
+  }
+
+
+const selectedDate = new Date(formData.dueDate);
+const todayTimestamp = new Date().setHours(0, 0, 0, 0);
+
+if (isNaN(selectedDate.getTime()) || selectedDate.getTime() < todayTimestamp) {
+  setValidationError("Please select a valid future date.");
+  return; 
+}
+
+  try {
+    await createProject(`${apiUrl}/projects`, formData);
+    navigate(-1);
+  } catch (err) {
+    setValidationError("Failed to save project. Please try again.");
+  }
+};
 
   if (!isAuthenticated) {
     return (
@@ -74,6 +100,11 @@ const NewProjectPage = () => {
         <Col xs={11}>
           <Card className="d-flex justify-content-center align-items-center">
             <h1> New Project </h1>
+            {validationError && (
+              <div className="alert alert-danger py-2 text-center" role="alert">
+                {validationError}
+              </div>
+            )}
             <Form
               onSubmit={handleSubmit}
               className="d-flex flex-column justify-content-center gap-3 m-2"
@@ -88,6 +119,7 @@ const NewProjectPage = () => {
                   value={formData.title}
                   onChange={handleChange}
                   required
+                  isInvalid={!!validationError && formData.title.length < 3}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicDescription">
@@ -102,6 +134,7 @@ const NewProjectPage = () => {
                   value={formData.description}
                   onChange={handleChange}
                   required
+                  isInvalid={!!validationError && formData.description.length < 10}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicDueDate">
@@ -113,6 +146,7 @@ const NewProjectPage = () => {
                   value={formData.dueDate}
                   onChange={handleChange}
                   required
+                  isInvalid={!!validationError && validationError == "Please select a valid future date."}
                 />
               </Form.Group>
               <Button variant="primary" type="submit" disabled={loading}>

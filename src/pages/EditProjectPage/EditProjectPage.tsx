@@ -1,24 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { usePut } from "../../hooks/usePut";
 import axios from "axios";
 import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import type { ProjectItemProps } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { ArrowLeft } from "react-bootstrap-icons";
 
-
-export default function EditProjectPage(){
+export default function EditProjectPage() {
   const navigate = useNavigate();
-  const isAuthenticated = useAuth()
+  const isAuthenticated = useAuth();
   const apiUrl = import.meta.env.VITE_API_URL;
-  const { execute: editProject} = usePut()
-    const { ID } = useParams<{ ID: string }>();
+  const { execute: editProject } = usePut();
+  const { ID } = useParams<{ ID: string }>();
 
-  const { 
-    data 
-  } = useFetch<ProjectItemProps>(`${apiUrl}/projects/${ID}`);
+  const { data } = useFetch<ProjectItemProps>(`${apiUrl}/projects/${ID}`);
 
   const [formData, setFormData] = useState({
     title: data?.title,
@@ -27,7 +25,6 @@ export default function EditProjectPage(){
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,16 +40,17 @@ export default function EditProjectPage(){
     setError(null);
 
     try {
-        const response = editProject(`${apiUrl}/projects/${ID}`, formData);
+      editProject(`${apiUrl}/projects/${ID}`, formData);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const serverMessage =
           err.response?.data?.message || "Server error occurred";
         setError(serverMessage);
+        return <div>{error && <p className="text-danger">{error}</p>}</div>;
       } else {
         setError("An unexpected error occurred");
+        return <div>{error && <p className="text-danger">{error}</p>}</div>;
       }
-      console.error("Log In failed:", err);
     } finally {
       setIsLoading(false);
     }
@@ -60,11 +58,11 @@ export default function EditProjectPage(){
 
   if (!isAuthenticated) {
     return (
-      <Container className="vh-100 vw-100 d-flex justify-content-center align-items-center" fluid>
-        <Card
-          style={{ width: "18rem" }}
-          className="text-center"
-        >
+      <Container
+        className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+        fluid
+      >
+        <Card style={{ width: "18rem" }} className="text-center">
           <Card.Body>
             <Card.Title>Please Log In</Card.Title>
             <Button variant="primary" onClick={() => navigate("/")}>
@@ -76,51 +74,73 @@ export default function EditProjectPage(){
     );
   }
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        maxWidth: "300px",
-      }}
+    <Container
+      className="vh-100 vw-100 d-flex justify-content-center align-items-center"
+      fluid
     >
-      <div>
-        <label htmlFor="Title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          placeholder={formData.title}
-          value={formData.title}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <input
-          type="text"
-          id="description"
-          name="description"
-          placeholder={formData.description}
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="dueDate">Due Date:</label>
-        <input
-          type="date"
-          id="dueDate"
-          name="dueDate"
-          placeholder={formData.dueDate}
-          value={formData.dueDate}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? "Editing Project..." : "Edit Project"}
-      </button>
-    </form>
+      <Row className="m-0">
+        <Col xs={1} className=" justify-content-start p-3">
+          <ArrowLeft
+            onClick={() => navigate(-1)}
+            className="justify-content-start"
+            style={{
+              position: "fixed",
+              top: "120px",
+              left: "40px",
+              fontSize: "2.5rem",
+              zIndex: 1000,
+              cursor: "pointer",
+            }}
+          />
+        </Col>
+        <Col xs={11}>
+          <Card className="d-flex justify-content-center align-items-center">
+            <h1> Editing Project </h1>
+            <Form
+              onSubmit={handleSubmit}
+              className="d-flex flex-column justify-content-center gap-3 m-2"
+            >
+              <Form.Group className="mb-3" controlId="formBasicTitle">
+                <Form.Label>Title:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Edit Title"
+                  id="title"
+                  name="title"
+                  value={formData.title || ""}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDescription">
+                <Form.Label>Description:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  type="text"
+                  placeholder="Edit Description"
+                  id="description"
+                  name="description"
+                  value={formData.description || ""}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicDueDate">
+                <Form.Label>Due Date:</Form.Label>
+                <Form.Control
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate || ""}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit" disabled={isLoading}>
+                {isLoading ? "Editing Project..." : "Edit Project"}
+              </Button>
+            </Form>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
-};
+}
