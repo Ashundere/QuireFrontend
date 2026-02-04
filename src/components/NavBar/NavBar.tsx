@@ -4,7 +4,7 @@ import lightLogo from "../../assets/QuireLogoLight.png";
 import { useTheme } from "../../hooks/useTheme";
 import { Image, Navbar, Form, Container, Nav } from "react-bootstrap";
 
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 const NavbarComponent = () => {
   const { isDarkMode, toggleTheme, theme } = useTheme();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const NavbarComponent = () => {
       </Container>
       <Container className="justify-content-end gap-1">
         <GearFill/>
-        <Nav.Link href="/user">Profile</Nav.Link>
+        <Link to="/user">Profile</Link>
       </Container>
     </Navbar>
   );
