@@ -10,6 +10,15 @@ Using the MERN stack, this app handles authentication and authorization using a 
 
 ## Getting Started
 
+Make sure you have a .env file with the following variables:
+
+MONGO_URI
+PORT
+JWT_SECRET
+CLIENT_ORIGIN
+
+
+### Link
 
 Repository:
 
@@ -24,9 +33,6 @@ Quire Backend: https://quirebackend.onrender.com
 Quire Application: https://quirefrontend.onrender.com
 
 
-
-### Link
-https://ashundere.github.io/React-URL-Shortening-Page/
 
 ### Dependencies
 "react": "^19.2.0",
