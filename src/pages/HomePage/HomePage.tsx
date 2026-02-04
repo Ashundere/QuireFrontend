@@ -35,9 +35,9 @@ export default function HomePage() {
     useEffect(() => {
       if (isAuthenticated) {
         getProject(fetchUrl!);
-        getTasks(`${apiUrl}/projects/${activeProjectId}/tasks`)
+        getTasks(activeProjectId? `${apiUrl}/projects/${activeProjectId}/tasks`: null)
       }
-    }, [isAuthenticated, apiUrl]);
+    }, [isAuthenticated, apiUrl, activeProjectId]);
 
   if (!isAuthenticated) {
     return (
