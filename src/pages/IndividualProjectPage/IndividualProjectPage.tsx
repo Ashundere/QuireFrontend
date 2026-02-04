@@ -41,7 +41,7 @@ export default function IndividualProjectPage() {
       getProject(`${apiUrl}/projects/${ID}`);
       getTasks(ID? `${apiUrl}/projects/${ID}/tasks` : null )
     }
-  }, [isAuthenticated, apiUrl]);
+  }, [isAuthenticated, apiUrl, ID]);
 
   const toggleActive = () => {
     const currentId = project?._id ?? null;
