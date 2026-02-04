@@ -109,7 +109,7 @@ const NewTaskPage = () => {
         </Col>
         <Col xs={11}>
           <Card className="d-flex justify-content-center align-items-center">
-            <h1> Sign Up </h1>
+            <h1> New Task </h1>
             {validationError && (
               <div className="alert alert-danger py-2 text-center" role="alert">
                 {validationError}

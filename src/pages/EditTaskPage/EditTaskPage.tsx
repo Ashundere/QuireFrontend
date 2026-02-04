@@ -51,7 +51,6 @@ export default function EditTaskPage() {
     setError(null);
 
     try {
-      console.log("Form Submitted:", formData);
 
       editProject(`${apiUrl}/tasks/${ID}`, formData);
     } catch (err) {
@@ -122,7 +121,6 @@ export default function EditTaskPage() {
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicDescription">
@@ -136,7 +134,6 @@ export default function EditTaskPage() {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicDueDate">
@@ -147,7 +144,6 @@ export default function EditTaskPage() {
                   name="dueDate"
                   value={formData.dueDate}
                   onChange={handleChange}
-                  required
                 />
               </Form.Group>
               <Form.Select
