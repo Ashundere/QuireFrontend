@@ -38,7 +38,7 @@ export default function IndividualProjectPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      getProject(`${apiUrl}/projects/${ID}`);
+      getProject(ID? `${apiUrl}/projects/${ID}` : null);
       getTasks(ID? `${apiUrl}/projects/tasks/${ID}` : null )
     }
   }, [isAuthenticated, apiUrl, ID]);
